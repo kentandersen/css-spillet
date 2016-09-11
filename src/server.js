@@ -9,7 +9,10 @@ function renderDirectoryList(dir, url, callback) {
       <html>
         <body>
           <ul>
-            ${files.map(a => `<li><a href="${join(url,a)}">${a}</a></li>`).join('')}
+            ${files
+              .filter(a => a.charAt() !== '.')
+              .map(a => `<li><a href="${join(url,a)}">${a}</a></li>`)
+              .join('')}
           </ul>
         </body>
       </html>`
