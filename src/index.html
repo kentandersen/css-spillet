@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link type="text/css" rel="stylesheet" href="https://fast.fonts.net/cssapi/1927d443-3863-4afb-887a-5e2a888b69cb.css">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 1.2vw;
+      }
+
+
+      body {
+        background: #262626;
+        color: white;
+        font-family: 'Fedra Serif', Georgia, serif;
+        font-weight: 100;
+        line-height: 1.2;
+      }
+
+      main {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .team {
+        width: 25%;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .team .name {
+        font-size: 3rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .team .score {
+        font-family: 'Conduit ITC W01 Regular';
+        font-size: 6rem;
+        word-wrap: break-word;
+      }
+
+      .team .score .accuracy {
+        color: #FD5158;
+      }
+
+      .team .score .code {
+        color: #36BDB2;
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <main></main>
+
+    <script type="text/javascript">
+    let mainEl = document.querySelector('main');
+
+    function timeout(sec) {
+      return () => new Promise(resolve => setTimeout(resolve, sec * 1000));
+    }
+
+    function pullScore() {
+      fetch('/score.json').then(res => res.json())
+             .then((data = []) => {
+               data = Array(16).fill({});
+               return data.map(team => {
+                 return `<div class="team">
+                   <div class="name">teamName</div>
+                   <div class="score">
+                     <span class="accuracy">40</span> -
+                     <span class="code">20</span>
+                   </div>
+                 </div>`;
+               }).join('');
+             })
+             .then(html => mainEl.innerHTML = html)
+             .then(timeout(3000), timeout(3000))
+             .then(pullScore)
+    }
+
+    pullScore();
+    </script>
+  </body>
+</html>
